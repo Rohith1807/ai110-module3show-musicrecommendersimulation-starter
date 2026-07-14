@@ -17,24 +17,116 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+## Overview
+ 
+This system recommends songs to a user by comparing each song's features
+against a `UserProfile` taste profile, computing a weighted point score for
+every candidate, and returning a ranked list. It uses pure content-based
+filtering — no collaborative data from other users.
+ 
+## 1. Song features
+ 
+Each `Song` uses:
+ 
+- `genre` (categorical)
+- `mood` (categorical, light-weight secondary signal)
+- `energy` (0–1) *or* `acousticness` (0–1) — only one is used, since these
+  two are near-mirror opposites and including both would double-count the
+  same signal
+- `valence` (0–1, sad ↔ happy)
+- `danceability` (0–1)
+- `artist` (used only for a small affinity bonus, not core similarity)
+- `tempo_bpm` (optional, only if min-max scaled to 0–1 first)
+- `title` (display only, not used in scoring)
 
-Some prompts to answer:
+## 2. User profile
+ 
+The `UserProfile` stores:
+ 
+```python
+user_profile = {
+    "favorite_genre": "lofi",
+    "secondary_genres": ["ambient", "jazz"],
+    "favorite_mood": "chill",
+    "target_energy": 0.40,
+    "target_valence": 0.60,
+    "target_danceability": 0.55,
+    "favorite_artists": ["LoRoom", "Paper Lanterns"],
+    "history": [2, 4, 9]
+}
+```
+ 
+## 3. Finalized scoring rule (point-weighted)
+ 
+| Component               | Max points | Rule                                                                 |
+|--------------------------|-----------:|-----------------------------------------------------------------------|
+| Genre match              | +2.0       | 2.0 if genre == favorite_genre; +1.0 if in secondary_genres; else 0    |
+| Mood match               | +1.0       | +1.0 if mood == favorite_mood, else 0                                  |
+| Energy similarity        | +2.0       | `2.0 * (1 - abs(energy - target_energy) / energy_range)`              |
+| Valence similarity       | +1.5       | `1.5 * (1 - abs(valence - target_valence) / valence_range)`           |
+| Danceability similarity  | +1.0       | `1.0 * (1 - abs(danceability - target_danceability) / dance_range)`   |
+| Artist bonus             | +0.5       | +0.5 if artist is in favorite_artists                                  |
+| **Max possible score**   | **8.0**    | Sum of all components                                                  |
+ 
+```
+score = genre_score + mood_score + energy_score + valence_score + dance_score + artist_bonus
+```
+ 
+Normalize with `score / 8.0` for a 0–1 range if needed.
+ 
+### Why these weights
+ 
+- Genre (2.0) and energy similarity (2.0) are the two dominant signals —
+  together they're what cleanly separates something like "intense rock" from
+  "chill lofi."
+- Valence (1.5) is weighted just under genre/energy because it's the most
+  independent numeric feature (least correlated with the others), so it adds
+  real information rather than restating what energy already says.
+- Danceability (1.0) is lighter because it's fairly correlated with energy —
+  full weight would partially double-count that axis.
+- Mood (1.0) is intentionally half of genre's weight. Mood tags often overlap
+  with what the numeric features already encode (e.g. "chill" mood usually
+  comes bundled with low energy + high acousticness), so mood is treated as a
+  tiebreaker, not a primary driver.
+- Artist bonus (0.5) is a small nudge, not enough to let a poor overall match
+  win purely on artist loyalty.
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-  Each Song uses: genre (categorical), valence (0–1, sad↔happy), danceability (0–1), and one energy-axis feature — either energy or acousticness (only one, since they're near-mirror images of each other and including both would double-count the same signal). artist is also stored, used only for a small affinity bonus, not as a core similarity feature. tempo_bpm and mood are optional/secondary — tempo_bpm only if scaled to 0–1 first, and mood is left out of the core vector since it overlaps conceptually with valence/energy. title is stored for display only, not used in scoring.
+## 4. Ranking rule
+ 
+1. Compute the score for every candidate song.
+2. Exclude songs already in `user_profile["history"]`.
+3. Sort remaining songs by score, descending.
+4. Return the top N.
+5. Optional refinements: a minimum score threshold, or a diversity cap
+   limiting how many results come from the same artist/genre.
 
-- What information does your `UserProfile` store
-  The UserProfile stores a preferred value for each numeric feature (e.g. preferred valence, preferred danceability, preferred energy) — either set explicitly or computed as the average of songs the user has liked. It also stores a set of preferred genres, a set of artists the user has liked, and a history/list of songs already played or liked (used later to exclude repeats from recommendations).
+## 5. Known / expected biases
+ 
+- **Genre may overshadow mood-based fit.** Because genre carries double the
+  weight of mood, a song that's a strong mood match but in an unlisted or
+  non-favorite genre can rank below a song that's merely genre-correct but a
+  weaker overall vibe match. *Example: this system might over-prioritize
+  genre, ignoring a great song that matches the user's mood but sits in a
+  different genre bucket.*
+- **Single-genre credit is brittle.** A song in a genre adjacent to the
+  favorite (e.g. "dream pop" next to "lofi") gets zero genre credit unless
+  it's explicitly listed in `secondary_genres`, even if its numeric features
+  are a near-perfect match.
+- **Point targets, not ranges.** Numeric scoring rewards closeness to one
+  exact target value. A user who's fine with "anything under 0.5 energy"
+  isn't well represented — a song at energy 0.20 can score worse than one at
+  0.40, even though both may be equally acceptable to the user.
+- **No negative preferences.** The profile only encodes attraction, not
+  aversion — there's no way to penalize a disliked genre or artist beyond it
+  simply not matching the favorites list.
+- **Cold-start / new-artist bias.** Since the artist bonus only fires for
+  artists already in `favorite_artists`, new or undiscovered artists start
+  with a built-in disadvantage relative to familiar ones, even with identical
+  audio features.
+- **Static profile.** The profile doesn't automatically update as the user
+  likes or skips new songs; without a periodic recompute step, taste drift
+  over time won't be reflected.
 
-- How does your `Recommender` compute a score for each song
-  For each numeric feature, it computes a closeness score using a scoring rule (e.g. 1 - abs(candidate_value - preferred_value) / range, or a Gaussian falloff), so songs close to the user's preferred value score highest in both directions rather than just "higher is better." It adds a genre match score (1 if the song's genre is in the user's preferred genres, else 0) and a small artist-affinity bonus if the song shares an artist with something the user liked. These components are combined into one final score using weights (e.g. score = w1*valence_score + w2*danceability_score + w3*energy_score + w4*genre_match + artist_bonus).
-
-- How do you choose which songs to recommend
-  This is the ranking rule: compute the final score for every candidate song, exclude songs already in the user's history, sort the remaining songs by score in descending order, and return the top N. Optional refinements include a minimum score cutoff (don't recommend anything below a threshold) and a diversity cap (avoid returning too many songs from the same artist or genre even if they all score well).
-
-You can include a simple diagram or bullet list if helpful.
 
 ---
 
