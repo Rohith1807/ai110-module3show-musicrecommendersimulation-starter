@@ -210,6 +210,244 @@ Profile: {'genre': 'pop', 'mood': 'happy', 'energy': 0.8}
 
 ```
 
+## Profile prefernce
+
+```
+Loading songs from data/songs.csv...
+                                                                       
+############################################################            
+# NORMAL PROFILES                                                     
+############################################################         
+                                                                       
+============================================================           
+PROFILE: High-Energy Pop                                                   
+Preferences: {'genre': 'pop', 'mood': 'happy', 'energy': 0.95}
+============================================================
+
+1. Sunrise City (by Neon Echo)
+   Score: 4.74
+   Reasons:
+     - genre matches 'pop' (+2.0)
+     - mood matches 'happy' (+1.0)
+     - energy 0.82 vs target 0.95 (+1.74)
+
+2. Gym Hero (by Max Pulse)
+   Score: 3.96
+   Reasons:
+     - genre matches 'pop' (+2.0)
+     - energy 0.93 vs target 0.95 (+1.96)
+
+3. Rooftop Lights (by Indigo Parade)
+   Score: 2.62
+   Reasons:
+     - mood matches 'happy' (+1.0)
+     - energy 0.76 vs target 0.95 (+1.62)
+
+4. Neon Pulse Rising (by Kilowatt)
+   Score: 2.00
+   Reasons:
+     - energy 0.95 vs target 0.95 (+2.00)
+
+5. Iron Fist (by Grave Siren)
+   Score: 1.96
+   Reasons:
+     - energy 0.97 vs target 0.95 (+1.96)
+
+
+============================================================
+PROFILE: Chill Lofi
+Preferences: {'genre': 'lofi', 'mood': 'chill', 'energy': 0.35}
+============================================================
+
+1. Library Rain (by Paper Lanterns)
+   Score: 5.00
+   Reasons:
+     - genre matches 'lofi' (+2.0)
+     - mood matches 'chill' (+1.0)
+     - energy 0.35 vs target 0.35 (+2.00)
+
+2. Midnight Coding (by LoRoom)
+   Score: 4.86
+   Reasons:
+     - genre matches 'lofi' (+2.0)
+     - mood matches 'chill' (+1.0)
+     - energy 0.42 vs target 0.35 (+1.86)
+
+3. Focus Flow (by LoRoom)
+   Score: 3.90
+   Reasons:
+     - genre matches 'lofi' (+2.0)
+     - energy 0.40 vs target 0.35 (+1.90)
+
+4. Spacewalk Thoughts (by Orbit Bloom)
+   Score: 2.86
+   Reasons:
+     - mood matches 'chill' (+1.0)
+     - energy 0.28 vs target 0.35 (+1.86)
+
+5. Coffee Shop Stories (by Slow Stereo)
+   Score: 1.96
+   Reasons:
+     - energy 0.37 vs target 0.35 (+1.96)
+
+
+============================================================
+PROFILE: Deep Intense Rock
+Preferences: {'genre': 'rock', 'mood': 'intense', 'energy': 0.9}
+============================================================
+
+1. Storm Runner (by Voltline)
+   Score: 4.98
+   Reasons:
+     - genre matches 'rock' (+2.0)
+     - mood matches 'intense' (+1.0)
+     - energy 0.91 vs target 0.90 (+1.98)
+
+2. Gym Hero (by Max Pulse)
+   Score: 2.94
+   Reasons:
+     - mood matches 'intense' (+1.0)
+     - energy 0.93 vs target 0.90 (+1.94)
+
+3. Neon Pulse Rising (by Kilowatt)
+   Score: 1.90
+   Reasons:
+     - energy 0.95 vs target 0.90 (+1.90)
+
+4. Iron Fist (by Grave Siren)
+   Score: 1.86
+   Reasons:
+     - energy 0.97 vs target 0.90 (+1.86)
+
+5. Sunrise City (by Neon Echo)
+   Score: 1.84
+   Reasons:
+     - energy 0.82 vs target 0.90 (+1.84)
+
+
+############################################################
+# ADVERSARIAL / EDGE CASE PROFILES
+############################################################
+
+============================================================
+PROFILE: Conflicting: Sad + High Energy
+Preferences: {'genre': 'metal', 'mood': 'sad', 'energy': 0.9}
+============================================================
+
+1. Iron Fist (by Grave Siren)
+   Score: 3.86
+   Reasons:
+     - genre matches 'metal' (+2.0)
+     - energy 0.97 vs target 0.90 (+1.86)
+
+2. Storm Runner (by Voltline)
+   Score: 1.98
+   Reasons:
+     - energy 0.91 vs target 0.90 (+1.98)
+
+3. Gym Hero (by Max Pulse)
+   Score: 1.94
+   Reasons:
+     - energy 0.93 vs target 0.90 (+1.94)
+
+4. Neon Pulse Rising (by Kilowatt)
+   Score: 1.90
+   Reasons:
+     - energy 0.95 vs target 0.90 (+1.90)
+
+5. Sunrise City (by Neon Echo)
+   Score: 1.84
+   Reasons:
+     - energy 0.82 vs target 0.90 (+1.84)
+
+
+============================================================
+PROFILE: Out-of-range energy target
+Preferences: {'genre': 'jazz', 'mood': 'relaxed', 'energy': 1.5}
+============================================================
+
+1. Coffee Shop Stories (by Slow Stereo)
+   Score: 3.74
+   Reasons:
+     - genre matches 'jazz' (+2.0)
+     - mood matches 'relaxed' (+1.0)
+     - warning: target_energy 1.50 is outside valid range [0.0, 1.0], clamped for scoring
+     - energy 0.37 vs target 1.00 (+0.74)
+
+2. Iron Fist (by Grave Siren)
+   Score: 1.94
+   Reasons:
+     - warning: target_energy 1.50 is outside valid range [0.0, 1.0], clamped for scoring
+     - energy 0.97 vs target 1.00 (+1.94)
+
+3. Neon Pulse Rising (by Kilowatt)
+   Score: 1.90
+   Reasons:
+     - warning: target_energy 1.50 is outside valid range [0.0, 1.0], clamped for scoring
+     - energy 0.95 vs target 1.00 (+1.90)
+
+4. Gym Hero (by Max Pulse)
+   Score: 1.86
+   Reasons:
+     - warning: target_energy 1.50 is outside valid range [0.0, 1.0], clamped for scoring
+     - energy 0.93 vs target 1.00 (+1.86)
+
+5. Storm Runner (by Voltline)
+   Score: 1.82
+   Reasons:
+     - warning: target_energy 1.50 is outside valid range [0.0, 1.0], clamped for scoring
+     - energy 0.91 vs target 1.00 (+1.82)
+
+
+============================================================
+PROFILE: Nonexistent genre
+Preferences: {'genre': 'vaporwave', 'mood': 'happy', 'energy': 0.5}
+============================================================
+
+1. Rooftop Lights (by Indigo Parade)
+   Score: 2.48
+   Reasons:
+     - mood matches 'happy' (+1.0)
+     - energy 0.76 vs target 0.50 (+1.48)
+
+2. Sunrise City (by Neon Echo)
+   Score: 2.36
+   Reasons:
+     - mood matches 'happy' (+1.0)
+     - energy 0.82 vs target 0.50 (+1.36)
+
+3. Velvet Whisper (by Nadia Cole)
+   Score: 2.00
+   Reasons:
+     - energy 0.50 vs target 0.50 (+2.00)
+
+4. Golden Hour Drive (by Cassette Kids)
+   Score: 1.90
+   Reasons:
+     - energy 0.55 vs target 0.50 (+1.90)
+
+5. Wildflower Path (by Sable & Wren)
+   Score: 1.90
+   Reasons:
+     - energy 0.45 vs target 0.50 (+1.90)
+
+
+============================================================
+PROFILE: Sparse profile (mood only)
+Preferences: {'mood': 'happy'}
+============================================================
+
+1. Sunrise City (by Neon Echo)
+   Score: 1.00
+   Reasons:
+     - mood matches 'happy' (+1.0)
+
+2. Rooftop Lights (by Indigo Parade)
+   Score: 1.00
+   Reasons:
+     - mood matches 'happy' (+1.0)
+
+```
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
 
 ---
