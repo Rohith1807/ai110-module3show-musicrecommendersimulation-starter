@@ -1,20 +1,20 @@
-id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness
-1,Sunrise City,Neon Echo,pop,happy,0.82,118,0.84,0.79,0.18
-2,Midnight Coding,LoRoom,lofi,chill,0.42,78,0.56,0.62,0.71
-3,Storm Runner,Voltline,rock,intense,0.91,152,0.48,0.66,0.10
-4,Library Rain,Paper Lanterns,lofi,chill,0.35,72,0.60,0.58,0.86
-5,Gym Hero,Max Pulse,pop,intense,0.93,132,0.77,0.88,0.05
-6,Spacewalk Thoughts,Orbit Bloom,ambient,chill,0.28,60,0.65,0.41,0.92
-7,Coffee Shop Stories,Slow Stereo,jazz,relaxed,0.37,90,0.71,0.54,0.89
-8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22
-9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78
-10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35
-11,Golden Hour Drive,Cassette Kids,country,nostalgic,0.55,100,0.68,0.60,0.45
-12,Iron Fist,Grave Siren,metal,angry,0.97,160,0.25,0.55,0.03
-13,Velvet Whisper,Nadia Cole,R&B,romantic,0.50,88,0.72,0.68,0.40
-14,Island Sway,Rootline,reggae,playful,0.60,95,0.75,0.70,0.50
-15,Neon Pulse Rising,Kilowatt,EDM,triumphant,0.95,128,0.80,0.85,0.05
-16,Falling Leaves Sonata,Elise Marchand,classical,melancholic,0.30,66,0.35,0.25,0.95
-17,Wildflower Path,Sable & Wren,folk,nostalgic,0.45,84,0.62,0.50,0.80
-18,Underwater Dream,Halo Static,dream pop,dreamy,0.38,70,0.55,0.45,0.65
-19,Streetlight Cypher,MC Lumen,hip hop,energetic,0.80,95,0.58,0.90,0.15
+id,title,artist,genre,mood,energy,tempo_bpm,valence,danceability,acousticness,popularity,release_decade,mood_tags,vocal_style,explicit_content
+1,Sunrise City,Neon Echo,pop,happy,0.82,118,0.84,0.79,0.18,78,2020s,euphoric;uplifting,female vocals,False
+2,Midnight Coding,LoRoom,lofi,chill,0.42,78,0.56,0.62,0.71,55,2020s,nostalgic;introspective,instrumental,False
+3,Storm Runner,Voltline,rock,intense,0.91,152,0.48,0.66,0.10,62,2010s,aggressive;defiant,male vocals,False
+4,Library Rain,Paper Lanterns,lofi,chill,0.35,72,0.60,0.58,0.86,48,2020s,nostalgic;peaceful,instrumental,False
+5,Gym Hero,Max Pulse,pop,intense,0.93,132,0.77,0.88,0.05,70,2020s,aggressive;euphoric,male vocals,False
+6,Spacewalk Thoughts,Orbit Bloom,ambient,chill,0.28,60,0.65,0.41,0.92,40,2010s,dreamy;introspective,instrumental,False
+7,Coffee Shop Stories,Slow Stereo,jazz,relaxed,0.37,90,0.71,0.54,0.89,45,2000s,nostalgic;peaceful,female vocals,False
+8,Night Drive Loop,Neon Echo,synthwave,moody,0.75,110,0.49,0.73,0.22,58,2010s,moody;nostalgic,instrumental,False
+9,Focus Flow,LoRoom,lofi,focused,0.40,80,0.59,0.60,0.78,50,2020s,focused;calm,instrumental,False
+10,Rooftop Lights,Indigo Parade,indie pop,happy,0.76,124,0.81,0.82,0.35,65,2020s,euphoric;playful,mixed,False
+11,Golden Hour Drive,Cassette Kids,country,nostalgic,0.55,100,0.68,0.60,0.45,52,2010s,nostalgic;wistful,male vocals,False
+12,Iron Fist,Grave Siren,metal,angry,0.97,160,0.25,0.55,0.03,60,2010s,aggressive;defiant,male vocals,True
+13,Velvet Whisper,Nadia Cole,R&B,romantic,0.50,88,0.72,0.68,0.40,68,2020s,romantic;sensual,female vocals,False
+14,Island Sway,Rootline,reggae,playful,0.60,95,0.75,0.70,0.50,58,2000s,playful;carefree,male vocals,False
+15,Neon Pulse Rising,Kilowatt,EDM,triumphant,0.95,128,0.80,0.85,0.05,82,2020s,triumphant;euphoric,instrumental,False
+16,Falling Leaves Sonata,Elise Marchand,classical,melancholic,0.30,66,0.35,0.25,0.95,30,2000s,melancholic;wistful,instrumental,False
+17,Wildflower Path,Sable & Wren,folk,nostalgic,0.45,84,0.62,0.50,0.80,42,2010s,nostalgic;peaceful,female vocals,False
+18,Underwater Dream,Halo Static,dream pop,dreamy,0.38,70,0.55,0.45,0.65,47,2020s,dreamy;introspective,mixed,False
+19,Streetlight Cypher,MC Lumen,hip hop,energetic,0.80,95,0.58,0.90,0.15,73,2020s,energetic;confident,male vocals,True
