@@ -167,15 +167,47 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Sample Recommendation Output
 
-Paste a sample of your recommender's output here as a text block so a reader can see what it produces:
+
 
 ```
-# e.g.:
-# User profile: genre=indie, mood=chill, energy=low
-# Recommendations:
-#   1. ...
-#   2. ...
-#   3. ...
+Loading songs from data/songs.csv...
+
+==================================================
+TOP RECOMMENDATIONS
+Profile: {'genre': 'pop', 'mood': 'happy', 'energy': 0.8}
+==================================================
+
+1. Sunrise City (by Neon Echo)
+   Score: 4.96
+   Reasons:
+     - genre matches 'pop' (+2.0)
+     - mood matches 'happy' (+1.0)
+     - energy 0.82 vs target 0.80 (+1.96)
+
+2. Gym Hero (by Max Pulse)
+   Score: 3.74
+   Reasons:
+     - genre matches 'pop' (+2.0)
+     - energy 0.93 vs target 0.80 (+1.74)
+
+3. Rooftop Lights (by Indigo Parade)
+   Score: 2.92
+   Reasons:
+     - mood matches 'happy' (+1.0)
+     - energy 0.76 vs target 0.80 (+1.92)
+
+4. Streetlight Cypher (by MC Lumen)
+   Score: 2.00
+   Reasons:
+     - energy 0.80 vs target 0.80 (+2.00)
+
+5. Night Drive Loop (by Neon Echo)
+   Score: 1.90
+   Reasons:
+     - energy 0.75 vs target 0.80 (+1.90)
+
+==================================================
+
 ```
 
 **Screenshot or video** *(optional)*: <!-- Insert a screenshot or demo video link here -->
