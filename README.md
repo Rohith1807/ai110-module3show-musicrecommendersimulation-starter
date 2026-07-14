@@ -454,38 +454,58 @@ Preferences: {'mood': 'happy'}
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
-
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
+  - **Weight shift** — halved genre's weight (2.0 → 1.0) and doubled energy's
+    (2.0 → 4.0). Surprisingly, the top-5 order didn't change for any test
+    profile — only the raw scores shifted, since genre and energy usually
+    agree on the best song in this dataset.
+  - **Diverse user profiles** — tested High-Energy Pop, Chill Lofi, and Deep
+    Intense Rock, plus adversarial cases (conflicting mood/energy,
+    out-of-range energy, a nonexistent genre, and a sparse mood-only profile).
+    Normal profiles produced sensible, confident results. Edge cases exposed
+    real gaps: conflicting preferences silently collapse to whichever single
+    feature still has signal, and out-of-range energy values needed explicit
+    clamping/validation to avoid a misleadingly low score.
 
 ---
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
+- Tiny catalog (10–19 songs) — not enough data to represent real musical
+  variety, especially at the extremes of energy.
+- No understanding of lyrics, language, or cultural context — scoring is
+  based only on structured tags and audio features.
+- Genre carries more weight than mood, which can over-favor the most common
+  genre (lofi) and under-serve mood-driven listeners.
+- No negative preferences — the system can't express "avoid this genre."
+- Static profile — doesn't learn or update from what a user actually likes
+  over time.
 
 ---
 
 ## Reflection
 
-Read and complete `model_card.md`:
-
-[**Model Card**](model_card.md)
-
-Write 1 to 2 paragraphs here about what you learned:
-
-- about how recommenders turn data into predictions
-- about where bias or unfairness could show up in systems like this
+    **Biggest learning moment:** realizing that changing the scoring weights
+    didn't change the rankings at all — the dataset, not the formula, was
+    driving most of the results. That was a bigger lesson about recommender
+    systems than any single line of code.
+    
+    **Using AI tools:** Claude was most useful for quickly turning our scoring
+    rules into working code and for stress-testing edge cases we wouldn't have
+    thought to try (out-of-range inputs, conflicting preferences). I had to
+    double-check it whenever function signatures or return types shifted
+    between versions — a few bugs (like a joined string being iterated
+    character-by-character) only showed up by actually running the code myself.
+    
+    **What surprised me:** how "smart" a simple point-based system can feel.
+    There's no learning, no AI model, just genre/mood matches and a distance
+    formula — yet the top result almost always felt like a reasonable pick.
+    Good recommendations don't require complexity, just the right features.
+    
+    **What's next:** I'd let users specify a range instead of one exact energy
+    value, add a diversity cap so results aren't dominated by one artist, and
+    grow the dataset — most of the biases we found were really data gaps, not
+    logic bugs.
+ 
 
 
 
